@@ -2,3 +2,13 @@
 bootstrap.json
 build/
 ext/
+
+.classpath
+classpath
+.project
+.settings/
+target/
+test-output/
+/target
+.DS_Store
+.gitignore
