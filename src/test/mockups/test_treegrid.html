@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Test Treegrid</title>
+<link href='https://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css' />
+<link href='https://apps.aurin.org.au/assets/js/extjs-4.1.0/resources/css/ext-all.css' rel='stylesheet' type='text/css' />
+<link href="https://apps.aurin.org.au/assets/js/extjs-4.1.0/ux/css/CheckHeader.css" rel="stylesheet" type="text/css" />
+
+<script src="https://apps.aurin.org.au/assets/js/extjs-4.1.0/ext-all.js"></script>
+<script src="https://apps.aurin.org.au/assets/js/sprintf/sprintf-0.6.js"></script>
+<script src="https://apps.aurin.org.au/assets/js/extjs-4.1.0/ux/CheckColumn.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/dojo/1.7.2/dojo/dojo.js" data-dojo-config="async: true, gfxRenderer: 'svg,silverlight,vml,canvas'"></script>
+<script src="https://apps.aurin.org.au/assets/js/underscore/1.3.3/underscore-min.js"></script>
+<script src="https://apps.aurin.org.au/assets/js/sugar/1.2.5/sugar-1.2.5.min.js"></script>
+<script src="https://maps.google.com/maps/api/js?sensor=false"></script>
+<script src="https://apps.aurin.org.au/assets/js/proj4js/1.1.0/proj4js-compressed.js"></script>
+<script src="https://apps.aurin.org.au/assets/js/openlayers/OpenLayers-2.12/OpenLayers.js"></script>
+
+<style type="text/css">
+.property {
+  background-image: url(resources/cog.gif) !important;
+}
+
+.task-folder {
+  background-image: url(resources/folder_go.gif) !important;
+}
+
+.x-grid-cell-checkcolumn .x-grid-cell-inner {
+  padding-top: 4px;
+  padding-bottom: 2px;
+  line-height: 14px;
+}
+.x-grid-with-row-lines .x-grid-cell-checkcolumn .x-grid-cell-inner {
+  padding-top: 3px;
+}
+
+.x-grid-checkheader {
+  width: 13px;
+  height: 13px;
+  background-image: url('https://apps.aurin.org.au/assets/js/extjs-4.1.0/resources/themes/images/default/form/checkbox.gif');
+  background-repeat: no-repeat;
+  background-color: transparent;
+  overflow: hidden;
+  padding: 0;
+  border: 0;
+  display: block;
+  margin: auto;
+  background-position: 0 0px;
+}
+
+.x-grid-checkheader-checked {
+  background-position: 0 -13px;
+}
+
+.x-grid-checkheader-disabled {
+  background-position: -39px 0;
+}
+
+.x-grid-checkheader-checked-disabled {
+  background-position: -39px -13px;
+}
+
+.suit-tree .x-grid-cell-inner {
+  border-bottom-width: 1px;
+  border-bottom-color: #D0D0D0;
+  border-bottom-style: dotted;
+}
+
+</style>
+<script src="test_treegrid.js"></script>
+
+</head>
+<body><div id="tree-example"></div></body>
+</html>

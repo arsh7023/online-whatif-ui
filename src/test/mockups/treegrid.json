@@ -1,0 +1,154 @@
+{ text: "."
+, expanded: true
+, children: [
+    { property: 'Slopes'
+    , type: 'factor'
+    , iconCls: 'property-folder'
+    , expanded: true
+    , group: 'slope'
+    , landUse: {
+        'residential': 100
+      , 'commercial': 50
+      , 'industrial': 20
+      }
+    , children: [
+        { property: '<6%'
+        , type: 'factor type'
+        , group: 'slope'
+        , leaf: true
+        , iconCls: 'property'
+        , landUse: {
+            'residential': 50
+          , 'commercial': 30
+          , 'industrial': 70
+          }
+        }
+      , { property: '6-12%'
+        , type: 'factor type'
+        , leaf: true
+        , group: 'slope'
+        , iconCls: 'property'
+        , landUse: {
+            'residential': 20
+          , 'commercial': 33
+          , 'industrial': 45
+          }
+        }
+      , { property: '12-15%'
+        , type: 'factor type'
+        , leaf: true
+        , group: 'slope'
+        , iconCls: 'property'
+        , landUse: {
+            'residential': 11
+          , 'commercial': 78
+          , 'industrial': 67
+          }
+        }
+      , { property: '15-18%'
+        , type: 'factor type'
+        , group: 'slope'
+        , leaf: true
+        , iconCls: 'property'
+        , landUse: {
+            'residential': 33
+          , 'commercial': 33
+          , 'industrial': 44
+          }
+        }
+      , { property: '18-25%'
+        , type: 'factor type'
+        , leaf: true
+        , group: 'slope'
+        , iconCls: 'property'
+        , landUse: {
+            'residential': 50
+          , 'commercial': 60
+          , 'industrial': 70
+          }
+        }
+      , { property: '>25%'
+        , type: 'factor type'
+        , group: 'slope'
+        , leaf: true
+        , iconCls: 'property'
+        , landUse: {
+            'residential': 50
+          , 'commercial': 30
+          , 'industrial': 32
+          }
+        }
+      ]
+    }
+  , { property: 'Prime Ag. Soils'
+    , type: 'factor'
+    , expanded: true
+    , group: 'ag'
+    , iconCls: 'property-folder'
+    , landUse: {
+        'residential': 20
+      , 'commercial': 54
+      , 'industrial': 66
+      }
+    , children: [
+        { property: 'Prime Ag.'
+        , type: 'factor type'
+        , group: 'ag'
+        , leaf: true
+        , iconCls: 'property'
+        , landUse: {
+            'residential': 33
+          , 'commercial': 34
+          , 'industrial': 88
+          }
+        }
+      , { property: 'Non Prime Ag.'
+        , type: 'factor type'
+        , group: 'ag'
+        , leaf: true
+        , iconCls: 'property'
+        , landUse: {
+            'residential': 10
+          , 'commercial': 35
+          , 'industrial': 66
+          }
+        }
+      ]
+    }
+  , { property: 'Septic Soils'
+    , type: 'factor'
+    , expanded: true
+    , group: 'septic'
+    , iconCls: 'property-folder'
+    , landUse: {
+        'residential': 25
+      , 'commercial': 44
+      , 'industrial': 86
+      }
+    , children: [
+        { property: 'Good Septic'
+        , type: 'factor type'
+        , leaf: true
+        , group: 'septic'
+        , iconCls: 'property'
+        , landUse: {
+            'residential': 21
+          , 'commercial': 76
+          , 'industrial': 95
+          }
+        }
+      , { property: 'Poor Septic'
+        , type: 'factor type'
+        , leaf: true
+        , group: 'septic'
+        , iconCls: 'property'
+        , landUse: {
+            'residential': 20
+          , 'commercial': 45
+          , 'industrial': 56
+          }
+        }
+      ]
+    }
+  ]
+}

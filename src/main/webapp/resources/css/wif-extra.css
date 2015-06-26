@@ -1,0 +1,101 @@
+.header-row .x-grid-cell {
+    background-color: #EFF0F1 !important;
+    color: black;
+    font-weight: 900;
+    font-size: 14;
+}
+
+.normal-row .x-grid-cell {
+    background-color: white !important;
+    color: black;
+    font-size: 10;
+}
+
+.gridNoHeader .x-grid-header {
+    display: none;
+}
+
+.property {
+    background-image: url(resources/cog.gif) !important;
+}
+
+.task-folder {
+    background-image: url(resources/folder_go.gif) !important;
+}
+
+.x-grid-cell-checkcolumn .x-grid-cell-inner {
+    padding-top: 4px;
+    padding-bottom: 2px;
+    line-height: 14px;
+}
+.x-grid-with-row-lines .x-grid-cell-checkcolumn .x-grid-cell-inner {
+    padding-top: 3px;
+}
+
+.x-boundlist-item img.chkCombo {
+    width: 16px;
+    height: 16px;
+    background: transparent url(https://apps.aurin.org.au/assets/js/extjs-4.1.0/resources/themes/images/default/menu/unchecked.gif);
+}
+.x-boundlist-selected img.chkCombo {
+    width: 16px;
+    height: 16px;
+    background: transparent url(https://apps.aurin.org.au/assets/js/extjs-4.1.0/resources/themes/images/default/menu/checked.gif);
+}
+
+.property {
+    background-image: url(resources/cog.gif) !important;
+}
+
+.task-folder {
+    background-image: url(resources/folder_go.gif) !important;
+}
+
+.x-grid-cell-checkcolumn .x-grid-cell-inner {
+    padding-top: 4px;
+    padding-bottom: 2px;
+    line-height: 14px;
+}
+.x-grid-with-row-lines .x-grid-cell-checkcolumn .x-grid-cell-inner {
+    padding-top: 3px;
+}
+
+.x-grid-checkheader {
+    width: 13px;
+    height: 13px;
+    background-image: url('https://apps.aurin.org.au/assets/js/extjs-4.1.0/resources/themes/images/default/form/checkbox.gif');
+    background-repeat: no-repeat;
+    background-color: transparent;
+    overflow: hidden;
+    padding: 0;
+    border: 0;
+    display: block;
+    margin: auto;
+    background-position: 0 0px;
+}
+
+.x-grid-checkheader-checked {
+    background-position: 0 -13px;
+}
+
+.x-grid-checkheader-disabled {
+    background-position: -39px 0;
+}
+
+.x-grid-checkheader-checked-disabled {
+    background-position: -39px -13px;
+}
+
+.suit-tree .x-grid-cell-inner {
+    border-bottom-width: 1px;
+    border-bottom-color: #D0D0D0;
+    border-bottom-style: dotted;
+}
+
+img.wif-grid-row-delete {
+    width: 16px;
+    height: 16px;
+    background-image: url('https://apps.aurin.org.au/assets/resources/icons/famfamfam-silk/delete.png');
+    background-repeat: no-repeat;
+    background-color: transparent;
+}

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Test New Analysis</title>
+<link href='https://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css' />
+<link href='https://apps.aurin.org.au/assets/js/extjs-4.1.0/resources/css/ext-all.css' rel='stylesheet' type='text/css' />
+<link href="https://apps.aurin.org.au/assets/js/extjs-4.1.0/ux/css/CheckHeader.css" rel="stylesheet" type="text/css" />
+
+<script src="https://apps.aurin.org.au/assets/js/extjs-4.1.0/ext-all.js"></script>
+<script src="https://apps.aurin.org.au/assets/js/sprintf/sprintf-0.6.js"></script>
+<script src="https://apps.aurin.org.au/assets/js/extjs-4.1.0/ux/CheckColumn.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/dojo/1.7.2/dojo/dojo.js" data-dojo-config="async: true, gfxRenderer: 'svg,silverlight,vml,canvas'"></script>
+<script src="https://apps.aurin.org.au/assets/js/underscore/1.3.3/underscore-min.js"></script>
+<script src="https://apps.aurin.org.au/assets/js/sugar/1.2.5/sugar-1.2.5.min.js"></script>
+<script src="https://maps.google.com/maps/api/js?sensor=false"></script>
+<script src="https://apps.aurin.org.au/assets/js/proj4js/1.1.0/proj4js-compressed.js"></script>
+<script src="https://apps.aurin.org.au/assets/js/openlayers/OpenLayers-2.12/OpenLayers.js"></script>
+
+<script>
+
+Ext.onReady(function() {
+
+    Ext.QuickTips.init();
+
+    var tip = 'A scenario representing a desire to expand housing and ' +
+      'reduce the quantity of agricultural land';
+
+    var panel = Ext.create('Ext.form.Panel', {
+      header: false,
+      bodyPadding: 5,
+
+      // Fields will be arranged vertically, stretched to full width
+      layout: 'anchor',
+      defaults: {
+        labelAlign: 'right',
+        labelWidth: 150,
+        anchor: '100%',
+        width: 200
+      },
+
+      // The fields
+      defaultType: 'textfield',
+      items: [{
+        fieldLabel: 'Analysis Name',
+        width: 50,
+        value: 'Suitability - Suburbanization - Hervey Bay'
+      }, {
+        xtype: 'combobox',
+        fieldLabel: 'Area of Study',
+        store: ['Hervey Bay, Queensland', 'Perth, Western Australia', 'Allocation']
+      }, {
+        xtype: 'combobox',
+        fieldLabel: 'Analysis Type',
+        store: ['Suitability', 'Demand', 'Allocation']
+      }, {
+        xtype: 'combobox',
+        fieldLabel: 'Create from Scenario',
+        listConfig: {
+          getInnerTpl: function () {
+            return '<div data-qtip="{tip}">{n}</div>';
+          }
+        },
+        queryMode: 'local',
+        displayField: 'name',
+        valueField: 'name',
+        store: new Ext.data.Store({
+          fields: ['name', 'tip'],
+          data: [{
+            name: 'Suburbanization',
+            tip: tip
+          }, {
+            name: 'Conservation',
+            tip: tip
+          }, {
+            name: 'New Scenario ...',
+            tip: tip
+          }]
+        })
+      }],
+
+      buttons: [{
+        text: 'OK'
+      }],
+    });
+
+    Ext.create('Ext.window.Window', {
+      title: 'New Analysis',
+      height: 300,
+      width: 600,
+      layout: 'fit',
+      items: [panel]
+    }).show();
+
+});
+
+</script>
+</head>
+<body>
+</body>
+</html>

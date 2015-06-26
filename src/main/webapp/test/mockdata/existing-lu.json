@@ -1,0 +1,11 @@
+[
+  { "value": "31"
+  , "label": "Med Density Res."
+  }
+, { "value": "44"
+  , "label": "Nursing Home"
+  }
+, { "value": "30"
+  , "label": "Low Density Res."
+  }
+]

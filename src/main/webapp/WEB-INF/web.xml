@@ -1,0 +1,180 @@
+<?xml version="1.0"?>
+<web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="
+        http://java.sun.com/xml/ns/j2ee
+        http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd
+        http://www.springframework.org/schema/context
+    ">
+
+  <display-name>What-if UI</display-name>
+
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>/WEB-INF/spring/root-context.xml</param-value> <!-- /WEB-INF/classes/applicationContext.xml -->
+  </context-param>
+
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+  
+  
+  <servlet>
+		<servlet-name>appServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		 <init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>  <!-- /WEB-INF/classes/applicationContext.xml -->
+		</init-param> 
+		<load-on-startup>1</load-on-startup> <!-- 2 -->
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>appServlet</servlet-name>
+		<url-pattern>/</url-pattern> <!-- /appServlet/* -->
+	</servlet-mapping>
+  
+
+  <servlet>
+    <servlet-name>dispatcher</servlet-name>
+    <servlet-class>org.springframework.web.context.support.HttpRequestHandlerServlet</servlet-class>
+  </servlet> 
+
+  <servlet>
+    <servlet-name>uploader</servlet-name>
+    <servlet-class>org.springframework.web.context.support.HttpRequestHandlerServlet</servlet-class>
+  </servlet>
+
+  <servlet>
+    <servlet-name>downloader</servlet-name>
+    <servlet-class>org.springframework.web.context.support.HttpRequestHandlerServlet</servlet-class>
+  </servlet>
+
+  <servlet>
+    <servlet-name>projectRestore</servlet-name>
+    <servlet-class>org.springframework.web.context.support.HttpRequestHandlerServlet</servlet-class>
+  </servlet>
+
+  <servlet>
+    <servlet-name>DemandSetupReport</servlet-name>
+    <servlet-class>org.springframework.web.context.support.HttpRequestHandlerServlet</servlet-class>
+  </servlet>
+  
+  <servlet>
+    <servlet-name>suitabilityReport</servlet-name>
+    <servlet-class>org.springframework.web.context.support.HttpRequestHandlerServlet</servlet-class>
+  </servlet>
+
+  <!-- 
+  <servlet>
+    <servlet-name>application</servlet-name>
+    <jsp-file>/view/index.jsp</jsp-file>
+  </servlet> 
+  
+     <servlet>
+    <servlet-name>view</servlet-name>
+    <jsp-file>/app/view.jsp</jsp-file>
+  </servlet>
+  
+      <servlet-mapping>
+    <servlet-name>view</servlet-name>
+    <url-pattern>/app/view.jsp</url-pattern>
+  </servlet-mapping>
+  
+  
+  <servlet-mapping>
+    <servlet-name>application</servlet-name>
+    <url-pattern>/</url-pattern>
+  </servlet-mapping> 
+  
+   <servlet>
+    <servlet-name>sld</servlet-name>
+    <jsp-file>/view/sld.jsp</jsp-file>
+  </servlet>
+  
+    <servlet>
+    <servlet-name>sldnew</servlet-name>
+    <jsp-file>/view/sldnew.jsp</jsp-file>
+  </servlet>
+  
+    <servlet>
+    <servlet-name>shib</servlet-name>
+    <jsp-file>/app/shib.jsp</jsp-file>
+  </servlet>
+  
+   <servlet-mapping>
+    <servlet-name>shib</servlet-name>
+    <url-pattern>/app/shib.jsp</url-pattern>
+  </servlet-mapping>
+  
+   <servlet-mapping>
+    <servlet-name>sld</servlet-name>
+    <url-pattern>/sld</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>sldnew</servlet-name>
+    <url-pattern>/sldnew</url-pattern>
+  </servlet-mapping>  
+  
+   <servlet-mapping>
+    <servlet-name>default</servlet-name>
+    <url-pattern>/js/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>default</servlet-name>
+    <url-pattern>/resources/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>default</servlet-name>
+    <url-pattern>/app/*</url-pattern>
+  </servlet-mapping> 
+  
+  -->
+
+  <servlet-mapping>
+    <servlet-name>dispatcher</servlet-name>
+    <url-pattern>/dispatcher</url-pattern>
+  </servlet-mapping> 
+  <servlet-mapping>
+    <servlet-name>uploader</servlet-name>
+    <url-pattern>/uploader</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>downloader</servlet-name>
+    <url-pattern>/downloader</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>projectRestore</servlet-name>
+    <url-pattern>/projectRestore</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>suitabilityReport</servlet-name>
+    <url-pattern>/suitabilityReport</url-pattern>
+  </servlet-mapping>
+    <servlet-mapping>
+    <servlet-name>DemandSetupReport</servlet-name>
+    <url-pattern>/DemandSetupReport</url-pattern>
+  </servlet-mapping>
+
+
+
+  
+   
+
+	
+	<!--  
+  <servlet>
+    <servlet-name>RestController</servlet-name>
+    <servlet-class>org.springframework.web.context.support.HttpRequestHandlerServlet</servlet-class>
+  </servlet>
+  
+   <servlet-mapping>
+    <servlet-name>RestController</servlet-name>
+    <url-pattern>/RestController</url-pattern>
+  </servlet-mapping>-->
+
+
+
+
+</web-app>

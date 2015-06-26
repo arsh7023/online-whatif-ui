@@ -1,0 +1,11 @@
+[
+  { "value": "SLOPE"
+  , "label": "Slopes"
+  }
+, { "value": "PRIME"
+  , "label": "Prime Ag. Soils"
+  }
+, { "value": "SEPTIC"
+  , "label": "Septic Soils"
+  }
+]
