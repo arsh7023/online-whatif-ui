@@ -1,61 +1,32 @@
 # online-whatif-ui
-Online WhatIf User Interface
+Online WhatIf User Interface.  A web-based user interface for [Online WhatIf](https://github.com/AURIN/online-whatif).
 
-Build instructions
-------------------
-
-Set aurin.dir properties in pom.xml to location where combined pom.xml will be located
-Create your own system properties (user-dev and user-play) in your local aurin-properties repo. Use these instead ivo-xxx.
+# Build instructions
 
 To build for debugging/development (first, specify servlet.hotdeploy.path in user-dev.properties):
 
-  # sudo mvn clean package -Ddeployment=development -Dsystem=ghazal-dev -Daurin.dir=/etc/aurin
+	mvn clean package -Ddeployment=development -Dsystem=ali-dev -Daurin.dir=/etc/aurin
 
 To build for production:
 
-  # sudo mvn clean package -Ddeployment=production -Dsystem=ivo-play -Daurin.dir=/etc/aurin
+	mvn clean package -Ddeployment=production -Dsystem=ali-dev -Daurin.dir=/etc/aurin
 
-To deploy to aurin maven repository:
+# Running Tomcat
 
-  # sudo mvn deploy -Ddeployment=production -Dsystem=ivo-play -Daurin.dir=/etc/aurin
+Before running tomcat, check that the JAVA\_OPTS provide enough memory.  It's best to set -Xms to a minimum of 256m and -Xmx to a minimum of 512m.  You'll also need to set the aurin.dir variable.  For example:
 
-Build will run uglification of JavaScript.
+        JAVA_OPTS="-Djava.awt.headless=true -XX:+UseConcMarkSweepGC -Dfile.encoding=UTF-8 -Xmx2G -XX:PermSize=512M -Daurin.dir=/etc/aurin"
 
-Running Tomcat
---------------
-export JAVA_OPTS="-Xms256m -Xmx512m -Daurin.dir=/etc/aurin"
-before running tomcat
+On Ubuntu, the JAVA\_OPTS variable can be set in the /etc/defaults/tomcat7 file.
 
-Properties
-----------
+# Properties
 
-The following properties need to be set for your system:
+The following properties need to be set in the whatif-combined.properties file for your system:
 
-wif.ui.endpoint=http://base/url/of/what-if/service/
-wif.ui.appBase=http://base/url/of/what-if-ui/service/
+	wif.ui.endpoint=http://base/url/of/what-if/service/
+	wif.ui.appBase=http://base/url/of/what-if-ui/service/
 
-If you are developing locally, it will also help to set the
-following option, which turns off checking of SSL certificates:
+If you are developing locally, it will also help to set the following option,
+which turns off checking of SSL certificates:
 
-wif.ui.useTrustingHttpClient=true
-
-
-Javascript optimization
------------------------
-`sedscript.sed` removes all debugging commands (console.* and _.log)
-`uglifyjs` compresses the JavaScript files
-
-
-Dependencies
-------------
-### Java
-- yuicompressor.jar
-
-### Ruby's gem
-- compass
-  To install compass:
-  # sudo gem install compass
-
-### Node modules
-- uglifyjs
-
+	wif.ui.useTrustingHttpClient=true
