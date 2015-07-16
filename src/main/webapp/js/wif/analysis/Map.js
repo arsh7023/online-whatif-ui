@@ -1450,7 +1450,7 @@ Ext.define('Wif.analysis.Map', {
            feature.popup = new OpenLayers.Popup.FramedCloud("pop",
                feature[0].geometry.getBounds().getCenterLonLat(),
                null,
-               '<div class="markerContent">'+sent+'</div>',
+               '<div style="text-align: left; width:250px;height:250px;">'+sent+'</div>', //<div class="markerContent">
                null,
                true,
                function() {
