@@ -797,7 +797,27 @@ Ext.define('Wif.analysis.demandscenario.DemandScenarioNew', {
 		        fieldLabel: 'Analysis Type',
 		        name: 'last',
 		        value: '<b>Demand Scenario</b>',
-		      }, btn]
+		      }, 
+		      
+		      {
+		          xtype: 'button',
+		          style: { float: 'right'},
+		          text: 'PDF Report',
+		          handler: function () {
+		            me.ReportPDF();
+		          }
+		        },
+		        {
+		          xtype: 'button',
+		          style: { float: 'right' },
+		          text: 'Excel Report',
+		          handler: function () {
+		            me.ReportXLS();
+		          }
+		        }, 
+		      
+		        btn
+		      ]
 		    });
 		    //////////////////
 		    
@@ -1250,6 +1270,22 @@ Ext.define('Wif.analysis.demandscenario.DemandScenarioNew', {
  // });
 
 }//end lunch
+
+,
+
+ReportPDF: function() {
+       var me = this;       
+       var myurl = Wif.endpoint + 'projects/' + me.projectId + '/demandScenarios/' + me.scenarioId + '/pdfOutcome';
+	     
+       window.open(Aura.getDispatcher + 'url=' + myurl);
+	   },
+	   
+ReportXLS: function() {
+    var me = this;       
+    var myurl = Wif.endpoint + 'projects/' + me.projectId + '/demandScenarios/' + me.scenarioId + '/xlsOutcome';
+	     
+    window.open(Aura.getDispatcher + 'url=' + myurl);
+	   },
   
 });
 

@@ -2194,7 +2194,7 @@ ReportPDF: function() {
 	       var projectId = me.projectId;
 	       var scenarioId = me.scenarioId;
 	       var url = Wif.endpoint + 'projects/' + projectId
-	       + '/allocationScenarios/' + scenarioId + '/pdf';
+	       + '/allocationScenarios/' + scenarioId + '/pdfnew';
 	 
 	     	//window.open(url,'_blank');
 	      window.open(Aura.getDispatcher + 'url=' + url);
@@ -2205,7 +2205,7 @@ ReportXLS: function() {
 	       var projectId = me.projectId;
 	       var scenarioId = me.scenarioId;
 	       var url = Wif.endpoint + 'projects/' + projectId
-	       + '/allocationScenarios/' + scenarioId + '/xls';
+	       + '/allocationScenarios/' + scenarioId + '/xlsnew';
 	       
 	       console.log('Download xls path is: ' + Aura.getDispatcher + 'url=' + url);
 	 
