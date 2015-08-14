@@ -6,7 +6,7 @@
     background : #FFF;
 }
 .x-cp-rgbpicker {
-    background-image: url(../img/mask.png);
+    background-image: url(../images/mask.png);
     background-repeat: no-repeat;
     background-color: red;
     width: 182px;
@@ -28,7 +28,7 @@
     top: -7px;
     width: 15px;
     height: 15px;
-    background-image: url(../img/slider-rgb.gif) !important;
+    background-image: url(../images/slider-rgb.gif) !important;
     background-repeat: no-repeat !important;
     cursor: pointer;
     _cursor: hand;
@@ -51,7 +51,7 @@
     top: -7px;
     width: 15px;
     height: 15px;
-    background-image: url(../img/slider-rgb.gif) !important;
+    background-image: url(../images/slider-rgb.gif) !important;
     background-repeat: no-repeat;
     cursor: pointer;
     _cursor: hand;
@@ -85,7 +85,7 @@
 }
 
 .x-cp-leftarrow {
-    background-image: url(../img/leftarrow.jpg) !important;
+    background-image: url(../images/leftarrow.jpg) !important;
     background-repeat: no-repeat;
     background-position: center center;
     padding: 0 2px 0 2px;

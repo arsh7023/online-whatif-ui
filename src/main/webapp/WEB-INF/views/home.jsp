@@ -105,6 +105,8 @@
 <script src="js/common/undertow/undertow.js"></script>
 <script src="js/wif/color/ColorPicker.js"></script>
 <script src="js/wif/color/ColorPickerField.js"></script>
+<link rel="stylesheet" type="text/css" href="js/wif/color/resources/css/colorpicker.css">
+
 
 
 
