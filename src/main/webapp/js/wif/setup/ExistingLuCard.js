@@ -150,8 +150,8 @@ Ext.define('Wif.setup.ExistingLuCard', {
 
           Ext.Msg.show({
             title: 'Overwrite?',
-            msg: 'This will remove all the existing data. Would you like to continue?',
-            buttons: Ext.Msg.YESNOCANCEL,
+            msg: 'The new data will replace any existing data. Would you like to continue?',
+            buttons: Ext.Msg.YESNO,//Ext.Msg.YESNOCANCEL
             icon: Ext.Msg.QUESTION,
             fn: function (btn) {
               if (btn === 'yes'){

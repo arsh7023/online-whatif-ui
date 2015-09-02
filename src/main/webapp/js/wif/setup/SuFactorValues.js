@@ -126,7 +126,7 @@ Ext.define('Wif.setup.SuFactorValues', {
     });
 
     this.tbar = [{
-      text : 'Initialize Values',
+      text : 'Initialise Values',
       handler : function() {
         // https://dev-api.aurin.org.au/aurin-wif/projects/1/unionAttributes/SCORE_1/values
         if (!me.factor)
@@ -135,7 +135,7 @@ Ext.define('Wif.setup.SuFactorValues', {
 
         Ext.Msg.show({
           title : 'Overwrite?',
-          msg : 'This will remove all the existing data. Would you like to continue?',
+          msg : 'The new data will replace any existing data. Would you like to continue?',
           buttons : Ext.Msg.YESNO,
           icon : Ext.Msg.QUESTION,
           fn : function(btn) {
@@ -248,6 +248,11 @@ Ext.define('Wif.setup.SuFactorValues', {
       }, {
         getter : 'naturalOrder'
       }]
+	   , sorters : [{
+	        property : 'naturalOrder',
+	        direction : 'ASC'
+	    }]
+        
     });
 
     this.cellEditor = Ext.create('Ext.grid.plugin.CellEditing', {

@@ -34,7 +34,9 @@ Ext.define('Wif.setup.FinaliseCard', {
             function serviceHandler(data, status) {
               _.log(me, 'Finalizing', data, status);
               if (status && status === 200 && data == "") {
-            	  Ext.MessageBox.alert('Finalised', 'Suitability setup is complete.');
+            	  Ext.MessageBox.alert('Finalised', 'Project setup is complete.');
+            	  form.project.selfDestroy();
+            	 
               }
               else {
             	  // TODO This code could be useful elsewhere.
@@ -52,6 +54,8 @@ Ext.define('Wif.setup.FinaliseCard', {
               }
               mask.hide();
               form.project.selfDestroy();
+              
+              
             }
             _.log(me, 'Finalizing', form.serviceParams);
             Aura.data.Consumer.getBridgedService(form.serviceParams, serviceHandler, 0, 1);
