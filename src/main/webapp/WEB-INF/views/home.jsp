@@ -64,6 +64,7 @@
 <link rel="stylesheet" type="text/css" href="resources/css/desktop.css" />
 
 <script src="js/tile.stamen.js"></script>
+<script src="js/colorbrewer.js"></script>
 
 <link rel="stylesheet" type="text/css" href="js/aura/geosilk.css" /> <!-- https://apps.aurin.org.au/assets/js/ole/theme/geosilk/geosilk.css -->
 <script src="js/aura/geostats-jenks.js"></script>  <!-- https://apps.aurin.org.au/assets/js/geostats/geostats-jenks.js -->

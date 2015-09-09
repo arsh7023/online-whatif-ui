@@ -8,7 +8,7 @@ Ext.define('Wif.setup.trend.trendnewTrendsInfoCard', {
              'Wif.RESTObject'
            ],
   project : null,
-  title : 'demographicTrend Names',
+  title : 'Demographic Trend Names',
   storeDataNew : [],
   isEditing: true, 
   isLoadingExisting: true,
@@ -31,7 +31,7 @@ Ext.define('Wif.setup.trend.trendnewTrendsInfoCard', {
    	modelfields.push("label");
   	
     var gfield_id1 = {
-        text : "demographicTrend Names",
+        text : "Trend Names",
         dataIndex : "label",
         editor: 'textfield',
         type: 'string'

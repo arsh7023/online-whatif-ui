@@ -1380,6 +1380,8 @@ checkWmsNew: function () {
       });
      
     }
+    
+    
 
     function analyse () {
       _.log(me, 'start analysis');
@@ -1395,6 +1397,51 @@ checkWmsNew: function () {
     analyse();
     //me.remoteUpdate(analyse);
   },
+  
+  
+  duplicateScenario: function (name,callback) {
+
+	    var me = this;
+	       
+	    //alert('hi');
+	    _.log(me, 'start duplicateScneario', name);
+	     var analysisParam = {
+	    		name: name
+	          };
+	  	 var serviceParams = {
+	          xdomain: "cors"
+	        , url: Wif.endpoint + 'projects/' + me.projectId + '/suitabilityScenarios/' + me.scenarioId + '/duplicate'
+	        , method: "post"
+	        , params: analysisParam
+	        , headers: {
+	          "X-AURIN-USER-ID": Wif.userId
+	          }
+	        };
+
+	    me.win.setLoading('Please wait for the process to complete ...');
+
+	    function serviceHandler(data, status) {
+	      _.log(me, 'duplicate scenario result', data);
+	        me.win.setLoading(false);
+	        Ext.Msg.show({
+			     title: 'Result',
+			     msg: data,
+			     buttons: Ext.Msg.OK});
+	         Wif.eventBus.projectsChanged();
+	         if (callback) { callback(); }
+	    }
+	    
+	    
+
+	    function analysed () {
+
+	      Aura.data.Consumer.getBridgedService(serviceParams, serviceHandler, 0);
+	    }
+	    analysed();
+
+	 },
+  
+  
   
   downloadReport: function() {
 
@@ -1542,7 +1589,7 @@ var me = this;
       , {
         xtype: 'button',
         style: { float: 'right' },
-        text: 'PDF Report',
+        text: 'Scores(PDF)',
         handler: function () {
           me.ReportPDF();
         }
@@ -1550,7 +1597,7 @@ var me = this;
       , {
         xtype: 'button',
         style: { float: 'right' },
-        text: 'Excel Report',
+        text: 'Scores(XLS)',
         handler: function () {
           me.ReportXLS();
         }
@@ -1558,7 +1605,7 @@ var me = this;
      , {
         xtype: 'button',
         style: { float: 'right' },
-        text: 'Factor Report',
+        text: 'Factors(XLS)',
         handler: function () {
         	 me.ReportCSV();
         }
@@ -1566,11 +1613,58 @@ var me = this;
      , {
        xtype: 'button',
        style: { float: 'right' },
-       text: 'Convertible Report',
+       text: 'Convertibles(XLS)',
        handler: function () {
        	 me.ReportConvert();
-       }
+       }       
      }
+     
+     , {
+         xtype: 'button',
+         style: { float: 'right' },
+         text: 'Duplicate Scenario',
+         handler: function () {
+        	 var win = new Ext.Window({
+                 id:'xform-win-addAddress',
+                 title : 'Duplicate Scenario',
+                 modal:true,
+                 applyTo     : 'Duplicate Scenario',
+                 layout      : 'column',
+                 width       : 350,
+                 height      : 100,
+                 //closeAction :'hide',
+                 //plain       : true,
+                 //stateful    : false,
+                 items : [
+               
+					 { 
+						xtype: 'textfield',
+						fieldLabel: 'New Name',
+						id :'dupscenarioname',
+						name:'dupscenarioname',
+						value: scenarioData.label+'copy',
+						width:300,
+						allowBlank: false
+					 }     
+                     ,{
+                      xtype: 'button',
+                     text     : 'Submit',
+                     disabled : false,
+                     //style: { float: 'middle' },
+                     buttonAlign: 'center',
+                     handler  : function(){
+                        // win.hide();
+                    	 me.duplicateScenario(Ext.getCmp("dupscenarioname").value);
+                    	 
+                    	
+                     }
+                  
+                 }]
+             });
+             win.show();  
+         }       
+       }
+     
      
       ]
     });
@@ -1723,7 +1817,7 @@ var me = this;
     var mapFormPanel = Ext.create('Ext.form.Panel', {
 
       width: 300,
-      height: 400,
+      height: 200,
       //autoScroll: true,
       region: 'west',
       header: false,
@@ -1746,6 +1840,225 @@ var me = this;
  	       }
       ]
     });
+    
+    //////////////////color
+    /////////////////////////////////				
+
+    var colorData = [];
+    var firstval = '';
+    var firstvalmce2 = '';
+    var x = 32;
+    for (var k in colorbrewer) {
+
+        var nVal = 6;
+        var clrarr = [];
+        for (var j = 0; j < nVal; j++) {
+            //console.log(colorbrewer[k][nVal.toString()][j]);
+            clrarr.push(colorbrewer[k][nVal.toString()][j]);
+        }
+        var mycode = k + ',' + nVal;
+        var gfield = {
+            code: mycode,
+            name: k,
+            colors: clrarr,
+        };
+        colorData.push(gfield);
+        if (x == 32) {
+            firstval = mycode;
+        }
+        if (x == 10) {
+            firstvalmce2 = mycode;
+        }
+        x = x + 1;
+    }
+    
+    firstval= "Set1,6";
+
+
+
+    var colorStore = Ext.create('Ext.data.Store', {
+        fields: ['code', 'name', 'colors'],
+        //			data: [ {
+        //				"name": "RED",
+        //				"color": "#edf8b1"
+        //			}
+        //			,			
+        //			 {
+        //				"name": "BLUE",
+        //				"color": colorbrewer.YlGn["3"][0]//"rgb(252,141,89)"
+        //			} ]
+        data: colorData
+    });
+
+
+
+    var resultTpl = new Ext.XTemplate(
+        //'<tpl for="."><div class="x-boundlist-item"><div style="width:20px;height:20px;float:left;background-color:{color};"></div>{name}</div></tpl>'
+        '<tpl for="."><div class="x-boundlist-item"><tpl for="colors"><div style="width:20px;height:20px;float:left;background-color:{.};"></div></tpl>{name}</div></tpl>'
+    );
+    var colorCombo1 = new Ext.form.ComboBox({
+        id: 'colorCombo1',
+        forceSelection: true,
+        allowBlank: false,
+        editable: false,
+        //labelWidth: 20,
+        //width: 400,
+        width: '90%',
+        store: colorStore,
+        queryMode: 'local',
+        displayField: 'name',
+        valueField: 'code',
+        value: firstval,
+        //fieldLabel: 'Detailed Context_Score Colors',
+        //anchor: '50%',
+        multiSelect: false,
+        triggerAction: 'all',
+        emptyText: 'Select Color...',
+        selectOnFocus: true,
+        //itemSelector: 'div.search-item',
+        margin: '6 0 10 10',
+        //tpl: '<tpl for="."><div class="x-combo-list-item"><div style="width:20px;height:20px;float:left;background-color:{color};">{name}</div></div></tpl>',
+        tpl: resultTpl,
+        listeners: {
+
+        }
+    });
+
+    var colorpaletteLabel = {
+        xtype: 'label',
+        text: "",
+        forId: 'colorpaletteId',
+        margin: '9 0 0 2',
+        //width: '20%'
+    };
+    var compaletteLabel = {
+        xtype: 'label',
+        text: "Score Colors",
+        forId: 'colorpaletteIdx',
+        margin: '9 0 0 2',
+        //width: '20%'
+    };
+    
+      
+    var itemNames00 = [];      
+  
+   
+       
+   var  colorpalettePanel00 = Ext.create('Ext.form.Panel', {
+      layout: 'column',
+      width: '100%',
+      autoHeight: true,
+      frame: false,
+      border: 0,
+      items: itemNames00,
+      id: 'mce1Panel00',
+  });
+    
+    ///////opacity
+    
+    var colorpaletteLabelOpacity1 = {
+        xtype: 'label',
+        text: "Opacity:",
+        forId: 'colorpaletteOpacityId1',
+        margin: '9 0 0 2',
+        //width: '20%'
+    };
+    
+    var itemNumberOpacity1 = {
+        xtype: "numberfield",
+        id: 'itemNumberOpacity1',
+        readOnly: true,
+        width: 30,
+        allowDecimals: true,
+        decimalPrecision: 3,
+        value: 1,
+        margin: '0 0 0 2',
+        hideTrigger: true,
+    };
+    
+    var colorpaletteSliderOpacity1 = Ext.create('Ext.slider.Single', {
+      //width: 400,
+      width: '85%',
+      value: 1,
+      id: 'colorpaletteSliderOpacity1',
+      increment: 0.01,
+      minValue: 0.00,
+      decimalPrecision : 2,
+      maxValue: 1,
+      listeners: {
+          change: function(slider, thumb, newValue, oldValue) {
+              //console.log("slider opacity " + newValue.value);
+              var nVal = newValue.value;
+              Ext.getCmp('itemNumberOpacity1').setValue(nVal);
+             
+          }
+      }
+  });
+    
+    var itemNames02 = [];
+    
+    itemNames02.push(colorpaletteSliderOpacity1);
+    itemNames02.push(itemNumberOpacity1);
+       
+   var  colorpalettePanel02 = Ext.create('Ext.form.Panel', {
+      layout: 'column',
+      width: '100%',
+      autoHeight: true,
+      frame: false,
+      border: 0,
+      items: itemNames02,
+      id: 'mce1Panel02',
+  });
+   
+   var paletteBtn = Ext
+   .create(
+       'Ext.Button', {
+           text: 'Change Chropleth',
+           margin: '0 5 8 5',
+           scale: 'small',
+
+           handler: function() {
+           	
+           	     
+
+                   var selectedColor = colorCombo1.getValue().split(",");
+                   if (selectedColor != '') {
+                	   
+                	   me.updateSuitabilitySelector(); 
+                   }
+
+
+               } //end handler
+
+
+
+       });
+   
+   var colorMCE1Panels = Ext.create('Ext.form.Panel', {
+       //width: 435,
+	bodyPadding: 5,
+   	collapsible: false,
+   	collapsed : false,
+   	title: 'Suitability Score Colors',
+       width: '100%',
+       height: 175,
+       items: [
+           //colorpaletteLabel,
+           colorpaletteLabelOpacity1,
+           colorpalettePanel02,
+           compaletteLabel,
+           colorCombo1,
+           paletteBtn,
+       ]
+   });
+
+    
+    /////////////////////////////////////////
+
+       
+    ///////////////////end color
+    
+    
     
     var mapRadiLabel1 = {
         xtype: 'label',
@@ -1991,7 +2304,10 @@ var me = this;
       	
       
           //map.setWmsNew2(true,me.wmsLayerName, me.serverURL, me.suitabilityScoreRanges[newValue.rb], function(sldBody) {
-          map.setWmsNew2(true,me.wmsLayerName, me.serverURL, scorename,minvalue,maxvalue, function(sldBody) {
+      	  
+      	  //new for color
+      	  var selectedColor = colorCombo1.getValue().split(",");
+          map.setWmsNew2(true,me.wmsLayerName, me.serverURL, scorename,minvalue,maxvalue, selectedColor[0], selectedColor[1], function(sldBody) {
              // update the legend here
              var legendHtml = sprintf('<p style="margin-top:20px"><b>Legend:</b></p><img style="margin-top:5px" src="%swms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=%s&sld_body=%s" />', me.serverURL, me.wmsLayerName, _.encodeURLComponent(sldBody));
              mapFormPanel.down('panel').update(legendHtml);
@@ -2001,8 +2317,8 @@ var me = this;
       else
       {
         // map.removeLayer();
-      	
-      	  map.setWmsNew2(false,me.wmsLayerName, me.serverURL, '', function(sldBody) {
+    	  var selectedColor = colorCombo1.getValue().split(",");
+      	  map.setWmsNew2(false,me.wmsLayerName, me.serverURL, '', selectedColor[0], selectedColor[1], function(sldBody) {
          
        });
        }
@@ -2431,7 +2747,8 @@ var me = this;
 									//height : 200,
 									items: [
 											mapCheckRadio,
-										  mapFormPanel,
+										    mapFormPanel,
+										    colorMCE1Panels //new for colors
 									
 									],
 									

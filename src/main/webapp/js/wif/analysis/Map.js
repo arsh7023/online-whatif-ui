@@ -349,12 +349,11 @@ Ext.define('Wif.analysis.Map', {
   
   
   //setWmsNew2: function (param,wmsLayerName, serverURL, score, callback) {
-   setWmsNew2: function (param,wmsLayerName, serverURL,  scorename,minvalue,maxvalue, callback) {
+   setWmsNew2: function (param,wmsLayerName, serverURL,  scorename,minvalue,maxvalue, colorname,colorcnt,  callback) {
   	
 	  
   	_.log(this, 'setWmsNew2', wmsLayerName, this);
   	
-  
   	  
       if (!wmsLayerName) return;
 
@@ -391,7 +390,7 @@ Ext.define('Wif.analysis.Map', {
   		    	
   		    	console.log('setWmsNew2', scorename);
   		  		//mciSld = this.setSldSuitability(lsw, score);
-  		  		mciSld = this.setSldSuitability(lsw,scorename,minvalue,maxvalue);
+  		  		mciSld = this.setSldSuitability(lsw,scorename,minvalue,maxvalue,colorname,colorcnt);
   		  		console.log ("mciSld is:" + mciSld)
   					var layer2 = new OpenLayers.Layer.WMS(l2,
   	  					this.serverURL + 'wms', {
@@ -682,9 +681,15 @@ Ext.define('Wif.analysis.Map', {
  ,
   
   //setSldSuitability : function(lsw, score) {
-  setSldSuitability : function(lsw,  scorename,minvalue,maxvalue) {
+  setSldSuitability : function(lsw,  scorename,minvalue,maxvalue, colorname, colorcnt) {
   	
 	
+	 var vopacity = Ext.getCmp('colorpaletteSliderOpacity1').getValue();
+  	  
+  	 
+  	
+  	  
+	  
 	 var layerName = this.wmsLayerName;
    //var scoreColumn = score.featureFieldName;
    var scoreColumn = scorename;
@@ -749,7 +754,7 @@ Ext.define('Wif.analysis.Map', {
 	var lowB ="";
 	var highB = "";
 	var color = "";
-	var vopacity = 1;
+	//var vopacity = 1;
 	 
 	var sldp = '<?xml version="1.0" encoding="utf-8"?>';
 	sldp = sldp + '<StyledLayerDescriptor version="1.0.0">';
@@ -821,7 +826,8 @@ Ext.define('Wif.analysis.Map', {
 	lowB ="0.0";
 	highB = "1.0";
 	color = "#FFFF66"; //#C3C3C30
-	vopacity = 1;
+	color = colorbrewer[colorname][colorcnt.toString()][0];
+	//vopacity = 1;
 	
   sldp = sldp + '<Rule>';
   sldp = sldp + '<Title>' + title + '</Title>';
@@ -848,7 +854,8 @@ Ext.define('Wif.analysis.Map', {
 	lowB =lowLo;
 	highB = lowHi;
 	color = "#CCFFFF"; //#FFFF00
-	vopacity = 1;
+	color = colorbrewer[colorname][colorcnt.toString()][1];
+	
 	
   sldp = sldp + '<Rule>';
   sldp = sldp + '<Title>' + title + '</Title>';
@@ -875,7 +882,7 @@ Ext.define('Wif.analysis.Map', {
 	lowB =medlowLo;
 	highB = medlowHi;
 	color = "#FF0000";//#CBDEC1
-	vopacity = 1;
+	color = colorbrewer[colorname][colorcnt.toString()][2];
 	
   sldp = sldp + '<Rule>';
   sldp = sldp + '<Title>' + title + '</Title>';
@@ -902,7 +909,7 @@ Ext.define('Wif.analysis.Map', {
 	lowB =medLo;
 	highB = medHi;
 	color = "#993399";//#66CC00
-	vopacity = 1;
+	color = colorbrewer[colorname][colorcnt.toString()][3];
 	
   sldp = sldp + '<Rule>';
   sldp = sldp + '<Title>' + title + '</Title>';
@@ -929,7 +936,7 @@ Ext.define('Wif.analysis.Map', {
 	lowB =medhighLo;
 	highB = medhighHi;
 	color = "#CC6600"; //#33CC00
-	vopacity = 1;
+	color = colorbrewer[colorname][colorcnt.toString()][4];
 	
   sldp = sldp + '<Rule>';
   sldp = sldp + '<Title>' + title + '</Title>';
@@ -956,7 +963,7 @@ Ext.define('Wif.analysis.Map', {
 	lowB =highLo;
 	highB = highHi;
 	color = "#0000FF"; //#009900
-	vopacity = 1;
+	color = colorbrewer[colorname][colorcnt.toString()][5];
 	
   sldp = sldp + '<Rule>';
   sldp = sldp + '<Title>' + title + '</Title>';
@@ -986,8 +993,6 @@ Ext.define('Wif.analysis.Map', {
 	sldp = sldp + '</NamedLayer>';
 	sldp = sldp + '</StyledLayerDescriptor>';
 	
-	 
-			
 	
 	return sldp;
 }		
