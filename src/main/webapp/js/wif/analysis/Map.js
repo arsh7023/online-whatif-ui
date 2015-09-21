@@ -1499,6 +1499,203 @@ Ext.define('Wif.analysis.Map', {
 //   //feature.popup = null;
 // }
  
+
+ ,
+ 
+ addLayerSuitabilityProperty : function (aluColumns,suitabilityLus, wmsStyleName)
+	{
+		
+		// add layer property works
+	 
+	  //map.addControl(new OpenLayers.Control.Navigation());
+	 
+	  console.log('inside addLayerSuitabilityProperty');
+		
+    map = this.map;
+    var layername  =wmsStyleName;
+		layername = layername.toLowerCase();	
+    
+   	var lname = layername;
+		lname = lname.toLowerCase();	
+		var yx = {};
+		
+
+		
+		yx["EPSG:28350"] = false;
+		//envision
+		yx["EPSG:28355"] = false;
+		
+		yx["EPSG:900913"] = false;
+		
+		 var defaultVectorStyle= new OpenLayers.StyleMap({
+      "default": new OpenLayers.Style({
+        fillColor: "transparent",
+        strokeColor: "black",
+        strokeOpacity: 0.8,
+        strokeWidth: 1,
+        graphicZIndex: 1
+      })
+
+    });
+		 
+		 console.log("suitProplayar_");
+		 console.log(this.serverURL);
+		 console.log(this.projectId);
+		
+		var l2 = 'suitProplayar_' + this.projectId;
+
+		
+		var layer22 = new OpenLayers.Layer.WMS(l2,
+			this.serverURL + 'wms', { //instead of wms ->  gwc/service/wms http://example.com/geoserver/gwc/service/wms
+			//'https://localhost/geoserver/wms', { //change it later before deploy
+			layers: [ lname ],
+			format: 'image/png',
+			//SLD_BODY: sldp,
+			//styles: wmsStyleName, 
+			//styles:null, //can change static style here.
+			//styles: defaultVectorStyle,
+			Srs: 'EPSG:900913',
+			BBOX: map.getExtent().toBBOX(),
+		    tileSize: new OpenLayers.Size(256,256),
+			transparent: false, //was true ; since we dont want tiles for suitability otherwise it shows allocation colored tiles.
+			tiled: false, //was true
+			//tilesOrigin: map.maxExtent.left + ',' + map.maxExtent.bottom
+			//,srs: 'EPSG:28355'
+		}, {
+			unsupportedBrowsers: [], // let them empty to force POST
+			buffer: 0,
+			displayOutsideMaxExtent: true
+			,opacity: 0.5 //0.1
+			,
+			//yx : {'EPSG:102723': false} // ohio
+			//yx : {'EPSG:28356': false} // hervey bay
+			yx: yx
+		});
+		
+		
+		 
+		 var newstyleMap= new OpenLayers.StyleMap({
+      "default": new OpenLayers.Style(OpenLayers.Util.applyDefaults({
+          fillColor: "red",
+          strokeColor: "gray",
+          graphicName: "square",
+          rotation: 45,
+          pointRadius: 15
+      }, OpenLayers.Feature.Vector.style["default"])),
+      "select": new OpenLayers.Style(OpenLayers.Util.applyDefaults({
+          graphicName: "square",
+          rotation: 45,
+          pointRadius: 15
+      }, OpenLayers.Feature.Vector.style["select"]))
+  });
+		 
+
+//vectors = new OpenLayers.Layer.Vector("Vector Layer", {styleMap: defaultVectorStyle});
+    
+		
+		
+     var s2 = 'selectlayar_'  + this.projectId;
+     var select = new OpenLayers.Layer.Vector(s2, {
+         styleMap: newstyleMap
+     });
+ 
+	
+       var j = 0;
+	   lsw = false;
+		for ( var i = 0; i < map.layers.length; i++) {
+				if (map.layers[i].name == l2) {
+					lsw = true;
+					j = i;
+				}
+			}
+		if (lsw == false)
+		{
+			map.addLayers([layer22, select]);
+ 
+		    var lswShift = true;
+
+			var saveStrategy = [new OpenLayers.Strategy.BBOX()];
+	          var control = new OpenLayers.Control.GetFeature({
+	         	   strategies: [new OpenLayers.Strategy.BBOX(), saveStrategy],
+	             protocol: OpenLayers.Protocol.WFS.fromWMSLayer(layer22),
+	             box: true,
+	             //hover: true,
+	             title : this.projectId,
+	             multipleKey: "shiftKey",
+	             toggleKey: "altKey"
+	         });
+         
+         
+
+	         control.events.register("featureselected", this, function(e) {
+	             //select.addFeatures([e.feature]);
+	             //alert(e.feature.fid);
+	             if (lswShift == true)
+	            	{ 
+	                 createPopup([e.feature]);
+	            	}
+	             else
+	            	{
+	            	 lswShift = true;
+	            	} 
+	         });
+	         control.events.register("featureunselected", this, function(e) {
+	        	  destroyPopup([e.feature]);
+	             //select.removeFeatures([e.feature]);
+	            
+	         });
+
+	         map.addControl(control);
+	         control.activate();
+         
+	         map.addControl(new OpenLayers.Control.Navigation());
+         
+	         function createPopup(feature) {
+	        	 
+	        	 var sent="";
+	        	 for (var i =0; i <aluColumns.length; i++)
+	        		 {
+	        		    sent = sent + aluColumns[i].featureFieldName + ":" + feature[0].data[aluColumns[i].featureFieldName] + ","
+	        		 }
+	        	 //'<div class="markerContent">'+feature[0].data.ALU_2011+'</div>',
+	        	 sent = sent + "<br><br>";
+	        	 var j=0;
+	        	 for (var i = 0; i<suitabilityLus.length; i++)
+	        		 {
+	        		     j = j+1;
+	        		     sent = sent + suitabilityLus[i].featureFieldName + ":" + feature[0].data[suitabilityLus[i].featureFieldName] + ","
+	        		     if (j==4)
+	        		     {
+	        		    	 sent = sent + "<br>";
+	        		    	 j=0;
+	        		     }	 
+	        		 }
+	        	 
+	        	 
+	        	 
+	           feature.popup = new OpenLayers.Popup.FramedCloud("pop",
+	               feature[0].geometry.getBounds().getCenterLonLat(),
+	               null,
+	               '<div style="text-align: left; width:250px;height:250px;">'+sent+'</div>', //<div class="markerContent">
+	               null,
+	               true,
+	               function() {
+	          	           lswShift = false;
+	          	           control.unselectAll(); 
+	          	           this.destroy(); 
+	          	           }
+	           );
+	           //feature.popup.closeOnMove = true;
+	           map.addPopup(feature.popup);
+	         }
+
+	         function destroyPopup(feature) {
+
+	         }
+
+	   }//end if false
+	}
+ 
  
   
   /////END ali new functions

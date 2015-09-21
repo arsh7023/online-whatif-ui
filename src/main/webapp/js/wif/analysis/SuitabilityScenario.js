@@ -851,16 +851,16 @@ _.log(me, 'dirty', me.dirty);
       };
       
       
-      factorColumn = {
-      		  text: label
-      		  //, xtype: 'gridcolumn' //ali
-           , dataIndex: fName
-           , width: me.defColumnWidth
-           , editor: me.slider
-		       , align: 'right'
-		       , renderer: factorRenderer
-		       
-      };
+//      factorColumn = {
+//      		  text: label
+//      		  //, xtype: 'gridcolumn' //ali
+//           , dataIndex: fName
+//           , width: me.defColumnWidth
+//           , editor: me.slider
+//		       , align: 'right'
+//		       , renderer: factorRenderer
+//		       
+//      };
       
       factorColumns.push(factorColumn);
       //end new slider
@@ -2013,7 +2013,7 @@ var me = this;
    var paletteBtn = Ext
    .create(
        'Ext.Button', {
-           text: 'Change Chropleth',
+           text: 'Change Choropleth',
            margin: '0 5 8 5',
            scale: 'small',
 
@@ -2216,7 +2216,7 @@ var me = this;
     var mapCheckRadio = Ext.create('Ext.form.Panel', {
       //width: 435,
     	 width: 300,
-      height: 200,
+      height: 300,
       layout: {
           type: 'hbox',
           align: 'stretch',
@@ -2277,6 +2277,7 @@ var me = this;
       if (!map) {
       return;
       }
+
       
       if (newValue.rb!='-888')
        {
@@ -2320,8 +2321,13 @@ var me = this;
     	  var selectedColor = colorCombo1.getValue().split(",");
       	  map.setWmsNew2(false,me.wmsLayerName, me.serverURL, '', selectedColor[0], selectedColor[1], function(sldBody) {
          
-       });
+           });
        }
+      
+      
+      ///////ali new propertylayer
+      map.addLayerSuitabilityProperty(me.project.factors, me.project.suitabilityLus, me.wmsLayerName);	
+	  ///////
       
      };
     
@@ -2700,6 +2706,7 @@ var me = this;
 	           	 		return;
            	 		}
         	   } 
+              	   
            }
            
           },

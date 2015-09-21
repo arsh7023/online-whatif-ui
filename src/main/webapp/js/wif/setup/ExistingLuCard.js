@@ -7,6 +7,7 @@ Ext.define('Wif.setup.ExistingLuCard', {
 , project: null
 , title: 'Existing Land Uses.'//Land Uses Setup
 , loadmask: null
+, isFirsttime :true //new ali for init values.
 , initValues: function() {
 	_.log(this, 'ExistingLuCard.initValues', this);
     var // grid = this.findParentByType('grid')
@@ -140,6 +141,7 @@ Ext.define('Wif.setup.ExistingLuCard', {
 
     this.tbar.push(
       { text: 'Initialise Values'
+       //,disabled: me.isFirsttime
       , handler: function() {
           // https://dev-api.aurin.org.au/aurin-wif/projects/1/unionAttributes/SCORE_1/values
           var grid = this.findParentByType('grid')
@@ -150,7 +152,7 @@ Ext.define('Wif.setup.ExistingLuCard', {
 
           Ext.Msg.show({
             title: 'Overwrite?',
-            msg: 'The new data will replace any existing data. Would you like to continue?',
+            msg: 'If there is no data, the new data will insert into grid, otherwise it replace any existing data. Would you like to continue?',
             buttons: Ext.Msg.YESNO,//Ext.Msg.YESNOCANCEL
             icon: Ext.Msg.QUESTION,
             fn: function (btn) {
@@ -261,6 +263,12 @@ Ext.define('Wif.setup.ExistingLuCard', {
     activate: function() {
       _.log(this, 'activate');
       this.build();
+    
+//      this.newmyInit(function() {
+//    	  //me.loadmask.hide();
+//    	  this.build();       	  
+//          
+//      });
     }
   }
 
@@ -271,8 +279,104 @@ Ext.define('Wif.setup.ExistingLuCard', {
     if (projectId) { // do this before callParent
       me.store.serviceParams.url = Wif.endpoint + 'projects/' + projectId + '/allocationLUs/';
     }
-
+    
+      
     this.callParent(arguments);
   }
+
+, newmyInit: function (callback) {
+  
+    var me = this
+    , project = this.project
+    , projectId = this.project.projectId
+    , attrName = this.definition.existingLUAttributeName;
+
+    if (projectId) { // do this before callParent
+
+    	var doit=false;
+	    if ( me.isFirsttime == false)
+	    {
+		    if (this.project.definition.allocationLandUses == undefined)
+		    {
+		    	 // me.initValues();
+		    	  me.isFirsttime = true; 
+		    	  doit = true;
+		    	     
+		    }
+		    else 
+		    {
+	    	   if (this.project.definition.allocationLandUses.length == 0)
+	    		{
+	    		   // me.initValues();
+	    		    me.isFirsttime = true; 
+	    		    doit = true;
+	    		}
+	    	   else
+	    		{
+	    		   //alert(me.store);
+	    		   me.isFirsttime = true; 
+	    		}
+		    }
+		    
+		    
+
+		    var  serviceParams = {
+		          xdomain: "cors"
+		        , url: Wif.endpoint + 'projects/' + project.projectId + '/MakeLUsforUnionAttributes/' + attrName + '/makeLU/'
+		        , method: "get"
+		        , params: null
+		        , headers: {
+		          "X-AURIN-USER-ID": Wif.userId
+		          }
+		        };
+
+		    var fields = this.model.getFields();
+		    
+		    function serviceHandler(data) {
+		    	me.loadmask.hide();
+		    	if (callback) {
+		            callback();
+		        }
+		     
+		    }
+		    if (doit == true)
+		    {	
+			    me.loadmask = Ext.create('Ext.LoadMask', me, {msg: 'Initialising ...'});
+			    me.loadmask.show();
+			    Aura.data.Consumer.getBridgedService(serviceParams, serviceHandler, 0);
+		    }
+		    else
+		    {
+		    	if (callback) {
+		            callback();
+		        }
+		    } 	
+		    	
+		    
+		    
+	    }//end if ( me.isFirsttime == false)
+	    else
+	    {
+	    	if (callback) {
+	            callback();
+	        }
+	    } 	
+	    	
+	    
+
+	  }//if projectid
+    else
+    {
+    	if (callback) {
+            callback();
+        }
+    } 	
+	    
+    
+	   
+    
+  }
+
+  
 
 });

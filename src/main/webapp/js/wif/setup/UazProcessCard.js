@@ -13,6 +13,7 @@ Ext.define('Wif.setup.UazProcessCard', {
   }
 , unionAttrCbox: null
 , areaCbox: null
+, isFirsttime :false //new ali for init values.
 , items: []
 , constructor: function (config) {
     var me = this, cbox;
@@ -111,4 +112,150 @@ Ext.define('Wif.setup.UazProcessCard', {
     }
     Aura.data.Consumer.getBridgedService(serviceParams, putServiceHandler, 0);
   }
+
+//////
+
+//, validate: function (callback) {
+//	var me = this;
+//	  me.newmyInit(function() {
+//		  me.updateUAZfield(function(){  
+//		  if (callback) callback();
+//		  });
+//	    
+//	});
+//
+//}
+
+, updateUAZfield: function (callback) {
+    var me = this;
+
+    me.setLoading('Please wait ...');
+    
+    _.log(me, 'UAZ update project', me.project);
+    var serviceParams = {
+          xdomain: "cors"
+        , url: Wif.endpoint + 'projects/' + me.project.projectId
+        , method: "put"
+        , params: me.project.definition
+        , headers: {
+          "X-AURIN-USER-ID": Wif.userId
+          }
+        };
+    
+    function getServiceHandler(data, status) {
+    	me.setLoading(false);
+    	if (data) {
+            me.project.definition = data;    		
+    	}
+        if (callback) callback();
+    }
+
+    function putServiceHandler(data, status) {
+        _.log(me, 'UAZ update project', data, status);
+    	serviceParams.method = 'get';
+        Aura.data.Consumer.getBridgedService(serviceParams, getServiceHandler, 0);
+    }
+    Aura.data.Consumer.getBridgedService(serviceParams, putServiceHandler, 0);
+  }
+
+
+
+
+, newmyInit: function (callback) {
+	  
+    var me = this
+    , project = this.project
+    , projectId = this.project.projectId
+    , attrName = this.project.definition.existingLUAttributeName;
+
+    if (projectId) { // do this before callParent
+
+    	var doit=false;
+	    if ( me.isFirsttime == false)
+	    {
+		    if (this.project.definition.allocationLandUses == undefined)
+		    {
+		    	 // me.initValues();
+		    	  me.isFirsttime = true; 
+		    	  doit = true;
+		    	     
+		    }
+		    else 
+		    {
+	    	   if (this.project.definition.allocationLandUses.length == 0)
+	    		{
+	    		   // me.initValues();
+	    		    me.isFirsttime = true; 
+	    		    doit = true;
+	    		}
+	    	   else
+	    		{
+	    		   //alert(me.store);
+	    		   me.isFirsttime = true; 
+	    		}
+		    }
+		    
+		    
+
+		    var  serviceParams = {
+		          xdomain: "cors"
+		        , url: Wif.endpoint + 'projects/' + project.projectId + '/MakeLUsforUnionAttributes/' + attrName + '/makeLU/'
+		        , method: "get"
+		        , params: null
+		        , headers: {
+		          "X-AURIN-USER-ID": Wif.userId
+		          }
+		        };
+
+		  
+		    
+		    function serviceHandler(data) {
+		    	me.setLoading(false);
+		    	if (callback) {
+		            callback();
+		        }
+		     
+		    }
+		    if (doit == true)
+		    {	me.setLoading('Please wait ...');
+			   
+			    Aura.data.Consumer.getBridgedService(serviceParams, serviceHandler, 0);
+		    }
+		    else
+		    {
+		    	if (callback) {
+		            callback();
+		        }
+		    } 	
+		    
+		    
+	    }//end if ( me.isFirsttime == false)
+	    else
+	    {
+	    	if (callback) {
+	            callback();
+	        }
+	    } 	
+	    
+
+	  }//if projectid
+	    
+    else
+    {
+    	if (callback) {
+            callback();
+        }
+    } 	
+	   
+    
+  }
+
+
+
+//////
+
+
+
+
+
 });

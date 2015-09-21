@@ -98,6 +98,7 @@ Ext.define('Wif.setup.SuFactorValues', {
             records[i].set('naturalOrder', i);
           }
           store.sort('naturalOrder', 'ASC');
+          me.fireChanged();//ali-added to save natural order
         }
       }
     });
@@ -248,6 +249,7 @@ Ext.define('Wif.setup.SuFactorValues', {
       }, {
         getter : 'naturalOrder'
       }]
+      //sortes added by ali
 	   , sorters : [{
 	        property : 'naturalOrder',
 	        direction : 'ASC'
