@@ -1470,6 +1470,110 @@ var me = this;
 //        });
   },
   
+/////////upload xls factor
+
+  uploadXlsFactors: function() {
+	      var me = this;
+	       var projectId = me.projectId;
+	       var scenarioId = me.scenarioId;
+	       var url = Wif.endpoint + 'projects/' + projectId
+	       + '/suitabilityScenarios/' + scenarioId + '/uploadXlsFactors';
+
+			var me = this;
+			var oldwin=this.win;
+			this.win = Ext.create('Ext.Window', {
+				title : 'Restore Factor Values'
+			});
+
+			var form = Ext.create('Ext.form.Panel', {
+				width: 400,
+				bodyPadding: '10 10 0',
+				items : [ {
+					xtype : 'filefield',
+					emptyText : 'Select file',
+					name : 'file',
+					buttonText : 'Browse ...'
+				    ,regex     : (/.(xls)$/i),
+				    regexText : "Only xls files allowed for upload",
+				    msgTarget : "under"
+						
+						
+				}, {
+					xtype : 'button',
+					text : 'Restore',
+					handler : function() {
+						var form = this.up('form').getForm();
+						me.restore(form,oldwin);
+					}
+				} ]
+			});
+
+			this.win.add([ form ]);
+			this.win.show();
+	      
+	   },
+	   
+		restoreDone: function() {
+			this.win.destroy();
+		    //Wif.eventBus.projectsChanged();
+		},
+
+		restore : function(form,oldwin) {
+			var me = this;
+		    var projectId = me.projectId;
+		    var scenarioId = me.scenarioId;
+			var filename = form.findField('file').getValue();
+			if (filename == "") {
+				Ext.Msg.alert('No file selected',
+								'You need to select a file to upload first.');
+				return;
+			}
+
+			if (form.isValid()) {
+				 var url = Wif.endpoint + 'projects/' + projectId
+			       + '/suitabilityScenarios/' + scenarioId + '/uploadXlsFactors';
+				 
+				 
+				form.submit({
+					standardSubmit : true,
+					url : url,
+					//method : 'POST',
+					waitMsg : 'Restoring the file...',
+					 headers: {
+			              'Content-Type': 'application/json;charset=utf-8'
+			          },
+			         params: Ext.encode(form.getValues()),
+					success : function(form, action) {
+						_.log(this, 'success', form, action);
+						Ext.Msg.alert('Success',
+							'The file was restored correctly.');
+						
+						
+						me.restoreDone();
+					},
+					failure : function(form, action) {
+						_.log(this, 'Message', form, action);
+						
+						
+						if (JSON.parse(action.response.responseText).result=="success")
+							{
+							Ext.Msg.alert('Success','Success! Please open the scenario again to load new values.');
+							me.restoreDone();
+							oldwin.close();
+							}
+						else
+							{
+							Ext.Msg.alert('Failure',
+									'There status of restoring values: ' + JSON.parse(action.response.responseText).result);
+							me.restoreDone();
+							}
+					}
+				});
+			}
+		},	   
+  
+///////////////  
+  
   ReportPDF: function() {
   var me = this;
        var projectId = me.projectId;
@@ -1482,8 +1586,6 @@ var me = this;
       
        //window.open('appServlet/restGet');
        //console.log('downloading');
-		
-      
       
    },
    
@@ -1662,6 +1764,16 @@ var me = this;
                  }]
              });
              win.show();  
+         }       
+       }
+     , {
+         xtype: 'button',
+         style: { float: 'right' },
+         text: 'Upload Factor(XLS)',
+         handler: function () {
+         	 me.uploadXlsFactors();
+         	
+         	
          }       
        }
      
