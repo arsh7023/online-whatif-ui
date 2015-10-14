@@ -110,11 +110,11 @@
 
 
 
-
+<!-- https://apps.aurin.org.au/assets/js/extjs-4.1.0/src -->
 
 <script type="text/javascript">
 Ext.onReady(function (){
-  Ext.Loader.setPath('Ext', 'js/extjs-4.1.0-src'); //https://apps.aurin.org.au/assets/js/extjs-4.1.0/src
+  Ext.Loader.setPath('Ext', 'js/extjs-4.1.0-src'); 
 
 	var jresp = <%= userId %>;
   

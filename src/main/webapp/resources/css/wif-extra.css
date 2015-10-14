@@ -32,15 +32,18 @@
     padding-top: 3px;
 }
 
+/* background: transparent url(https://apps.aurin.org.au/assets/js/extjs-4.1.0/resources/themes/images/default/menu/unchecked.gif); */
 .x-boundlist-item img.chkCombo {
     width: 16px;
-    height: 16px;
-    background: transparent url(https://apps.aurin.org.au/assets/js/extjs-4.1.0/resources/themes/images/default/menu/unchecked.gif);
+    height: 16px;   
+    background: transparent url('../themes/images/default/menu/unchecked.gif');
 }
+/* background: transparent url(https://apps.aurin.org.au/assets/js/extjs-4.1.0/resources/themes/images/default/menu/checked.gif); */
 .x-boundlist-selected img.chkCombo {
     width: 16px;
     height: 16px;
-    background: transparent url(https://apps.aurin.org.au/assets/js/extjs-4.1.0/resources/themes/images/default/menu/checked.gif);
+    background: transparent url('../themes/images/default/menu/checked.gif');
+    
 }
 
 .property {
@@ -63,7 +66,8 @@
 .x-grid-checkheader {
     width: 13px;
     height: 13px;
-    background-image: url('https://apps.aurin.org.au/assets/js/extjs-4.1.0/resources/themes/images/default/form/checkbox.gif');
+    /* background-image: url('https://apps.aurin.org.au/assets/js/extjs-4.1.0/resources/themes/images/default/form/checkbox.gif'); */
+    background-image: url('../themes/images/default/form/checkbox.gif');
     background-repeat: no-repeat;
     background-color: transparent;
     overflow: hidden;
@@ -95,7 +99,8 @@
 img.wif-grid-row-delete {
     width: 16px;
     height: 16px;
-    background-image: url('https://apps.aurin.org.au/assets/resources/icons/famfamfam-silk/delete.png');
+    /* background-image: url('https://apps.aurin.org.au/assets/resources/icons/famfamfam-silk/delete.png'); */
+    background-image: url('../icons/delete.png');
     background-repeat: no-repeat;
     background-color: transparent;
 }

@@ -16,8 +16,10 @@ var Wif = Wif || {} // global Wif namespace
 
   Ext.Loader.setConfig({disableCaching: false});
   Ext.Loader.setPath('Wif', wifUiConfig['appBase'] + '/js/wif');
-  Ext.Loader.setPath('Ext', 'https://apps.aurin.org.au/assets/js/extjs-4.1.0/src');
-  Ext.Loader.setPath('Ext.ux', 'https://apps.aurin.org.au/assets/js/extjs-4.1.0/ux');
+  //Ext.Loader.setPath('Ext', 'https://apps.aurin.org.au/assets/js/extjs-4.1.0/src');
+  //Ext.Loader.setPath('Ext.ux', 'https://apps.aurin.org.au/assets/js/extjs-4.1.0/ux');
+  Ext.Loader.setPath('Ext', wifUiConfig['appBase'] + '/js/extjs-4.1.0-src');
+  Ext.Loader.setPath('Ext.ux', wifUiConfig['appBase'] + '/js/extjs-4.1.0-ux');
 
   Ext.override(Ext.data.AbstractStore, {
     indexOf : Ext.emptyFn
