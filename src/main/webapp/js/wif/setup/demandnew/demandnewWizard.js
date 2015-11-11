@@ -51,6 +51,7 @@ Ext.define('Wif.setup.demandnew.demandnewWizard', {
       this.win.show();
       _.log(this, 'complete wizard');
 
+       
       this.cardPanel = Ext.create('Wif.setup.CardPanel');
       this.win.add([this.cardPanel]);
 
@@ -90,15 +91,7 @@ Ext.define('Wif.setup.demandnew.demandnewWizard', {
         project : this
          })); 
       
-      //newnew claudia
-      /*
-      cards.push(Ext.create('Wif.setup.demandnew.demandnewPercentageEmploymentCard', {
-        project : this
-         }));
-         */ 
-      //////
-      
-      
+         
       
       cards.push(Ext.create('Wif.setup.demandnew.demandnewEmploymentPastTrendInfoCard', {
         project : this

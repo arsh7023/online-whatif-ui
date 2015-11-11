@@ -194,6 +194,58 @@ Ext.define('Wif.setup.demandnew.demandnewEmploymentSectorsCard', {
       stopSelection : false,
       editor : this.assocLuCbox
     });
+    
+    this.tbar.push(
+    	      { text: 'Save'
+    	      , handler: function() {
+    	          
+	           	   me.validate(function() {
+	           	      
+	          		 var waitingMsg = Ext.MessageBox.wait('Saving...', 'Saving');       	     
+	                  Ext.merge(me.project.definition, {
+	                  	includeTrends: false
+	                  });
+	                  
+	    
+	                  Ext.Ajax.request({
+	                      url: Wif.endpoint + 'projects/' + me.project.projectId + '/demand/setup/',
+	                      method: 'put',
+	                      jsonData: me.project.definition,
+	                      headers: {
+	                          "X-AURIN-USER-ID": 'aurin',
+	                      },
+	                      success: function(response) {
+	                          console.log('demand setup updated.');
+	                          waitingMsg.hide();
+	                          var jresp = Ext.JSON.decode(response.responseText);
+	                          me.project.definition._rev = jresp._rev;
+	                          Ext.MessageBox.show({
+	                              title: 'Message',
+	                              msg: "Updated",
+	                              buttons: Ext.MessageBox.OK,
+	                          });
+	                         
+	                      },
+	                      failure: function(response, options) {
+	
+	                          waitingMsg.hide();
+	                          var jresp = response.responseText;
+	                          Ext.MessageBox.alert(jresp);
+	                      }
+	
+	                  });
+	          		   
+	               });
+    	         
+    	        }
+    	      }
+    	    );
+    
+   ///////////////
+    
+    
+    
+    
     this.callParent(arguments);
   },
   listeners : {

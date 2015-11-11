@@ -39,7 +39,56 @@ Ext.define('Wif.setup.demandnew.demandnewCurrentDemographicCard', {
         regex : /^[12][0-9]{3}$/,
         regexText : 'Current year should be from 1000 to 2999!'
       });
+      
+      
+      /////////////////////
+      var SaveBtn = Ext.create('Ext.Button', {
+          text: 'Save',
+          margin: '5 5 8 5',
+          scale: 'small',
+          handler: function() {  
+        	    
+          	   me.validate(function() {
+        	      
+          		 var waitingMsg = Ext.MessageBox.wait('Saving...', 'Saving');       	     
+                  Ext.merge(me.project.definition, {
+                  	includeTrends: false
+                  });
+                  
+    
+                  Ext.Ajax.request({
+                      url: Wif.endpoint + 'projects/' + me.project.projectId + '/demand/setup/',
+                      method: 'put',
+                      jsonData: me.project.definition,
+                      headers: {
+                          "X-AURIN-USER-ID": 'aurin',
+                      },
+                      success: function(response) {
+                          console.log('demand setup updated.');
+                          waitingMsg.hide();
+                          var jresp = Ext.JSON.decode(response.responseText);
+                          me.project.definition._rev = jresp._rev;
+                          Ext.MessageBox.show({
+                              title: 'Message',
+                              msg: "Updated",
+                              buttons: Ext.MessageBox.OK,
+                          });
+                         
+                      },
+                      failure: function(response, options) {
 
+                          waitingMsg.hide();
+                          var jresp = response.responseText;
+                          Ext.MessageBox.alert(jresp);
+                      }
+
+                  });
+          		   
+               });
+           }//handler
+      });      
+      //////////////////////
+      
       var currentConditionFieldSet = Ext.create('Ext.form.FieldSet', {
         // columnWidth : 0.5,
         title : 'Current Condition',
@@ -170,7 +219,7 @@ Ext.define('Wif.setup.demandnew.demandnewCurrentDemographicCard', {
     });
     
     this.grid.reconfigure(this.store, this.gridfields);
-    this.items = [currentConditionFieldSet, this.grid];
+    this.items = [SaveBtn, currentConditionFieldSet, this.grid];
     
     this.callParent(arguments);
   },

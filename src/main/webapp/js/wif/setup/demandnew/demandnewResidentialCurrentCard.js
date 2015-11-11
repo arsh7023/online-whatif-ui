@@ -202,8 +202,56 @@ Ext.define('Wif.setup.demandnew.demandnewResidentialCurrentCard', {
         plugins: [cellEditor]
 
     });
+     
+     /////////////////////
+     var SaveBtn = Ext.create('Ext.Button', {
+         text: 'Save',
+         margin: '5 5 8 5',
+         scale: 'small',
+         handler: function() {  
+       	    
+         	   me.validate(function() {
+       	      
+         		 var waitingMsg = Ext.MessageBox.wait('Saving...', 'Saving');       	     
+                 Ext.merge(me.project.definition, {
+                 	includeTrends: false
+                 });
+                 
    
-      this.items = [this.grid];
+                 Ext.Ajax.request({
+                     url: Wif.endpoint + 'projects/' + me.project.projectId + '/demand/setup/',
+                     method: 'put',
+                     jsonData: me.project.definition,
+                     headers: {
+                         "X-AURIN-USER-ID": 'aurin',
+                     },
+                     success: function(response) {
+                         console.log('demand setup updated.');
+                         waitingMsg.hide();
+                         var jresp = Ext.JSON.decode(response.responseText);
+                         me.project.definition._rev = jresp._rev;
+                         Ext.MessageBox.show({
+                             title: 'Message',
+                             msg: "Updated",
+                             buttons: Ext.MessageBox.OK,
+                         });
+                        
+                     },
+                     failure: function(response, options) {
+
+                         waitingMsg.hide();
+                         var jresp = response.responseText;
+                         Ext.MessageBox.alert(jresp);
+                     }
+
+                 });
+         		   
+              });
+          }//handler
+     });      
+     //////////////////////
+   
+      this.items = [SaveBtn, this.grid];
       this.callParent(arguments);
 
   },
