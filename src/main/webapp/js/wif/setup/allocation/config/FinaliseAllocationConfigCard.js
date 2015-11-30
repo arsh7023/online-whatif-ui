@@ -30,7 +30,7 @@ Ext.define('Wif.setup.allocation.config.FinaliseAllocationConfigCard', {
           // me.demandId = id;
           _.log('Allocation setup done', data);
           Ext.Msg.alert('Success', 'Allocation Config information saved successfully');
-          Wif.eventBus.projectsChanged();
+          //Wif.eventBus.projectsChanged();
         }
 
         function failure(remote, status) {

@@ -69,7 +69,7 @@ Ext.define('Wif.setup.trend.FinalisetrendnewCard', {
           // me.demandId = id;
           _.log('demand setup done', data);
           Ext.Msg.alert('Success', 'Trend setup information saved successfully');
-          Wif.eventBus.projectsChanged();
+          //Wif.eventBus.projectsChanged();
         }
 
         function failure(remote, status) {

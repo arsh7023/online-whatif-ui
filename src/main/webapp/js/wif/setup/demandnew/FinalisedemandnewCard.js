@@ -68,7 +68,7 @@ Ext.define('Wif.setup.demandnew.FinalisedemandnewCard', {
           // me.demandId = id;
           _.log('demand setup done', data);
           Ext.Msg.alert('Success', 'Demand setup information saved successfully');
-          Wif.eventBus.projectsChanged();
+          //Wif.eventBus.projectsChanged();
         }
 
         function failure(remote, status) {

@@ -47,7 +47,7 @@ Ext
 						var me = this;
 						var treeData = {
 							text: '.',
-							expanded: true,
+							expanded: false, //was true
 							children: []
 						};
 						var projectArr = treeData.children;
@@ -60,7 +60,7 @@ Ext
 								meta: prj,
 								prjId: prjId,
 								type: 'project',
-								expanded: true
+								expanded: false, //was true
 							};
 
 							var children = [], sceTypes = [ 'suitability', 'demand',
