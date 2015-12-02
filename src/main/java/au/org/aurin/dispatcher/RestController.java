@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -160,10 +164,35 @@ public class RestController {
 
       if (myuser != null) {
 
-        session.setAttribute("user", myuser.getBody().getEmail());
-        logger.info("session assigned: " + myuser.getBody().getEmail());
-        return new ModelAndView("redirect:/");
-        // return new ModelAndView("home");
+        Boolean lsw = false;
+        ////new
+        final JSONParser parser = new JSONParser();
+        final Object obj = parser.parse(st.getBody());
+        final JSONObject jsonObject = (JSONObject) obj;
+
+        final JSONArray userApplications = (JSONArray) jsonObject.get("userApplications");
+        final Iterator<JSONObject> iterator = userApplications.iterator();
+
+        while (iterator.hasNext()) {
+          final JSONObject jsonObjectApp = iterator.next();
+          final String name = (String) jsonObjectApp.get("appname");
+          if (name.toLowerCase().contains("whatif") || name.toLowerCase().contains("what if")){
+            lsw = true;
+          }
+        }
+        if (lsw == true)
+        {
+          session.setAttribute("user", myuser.getBody().getEmail());
+          logger.info("session assigned: " + myuser.getBody().getEmail());
+          return new ModelAndView("redirect:/");
+          // return new ModelAndView("home");
+
+        }
+        else
+        {
+          model.addObject("message", "You dont have permission to access the tool.");
+          return model;
+        }
 
       }
 
@@ -250,7 +279,7 @@ public class RestController {
   @RequestMapping(method = RequestMethod.GET, value = "/logout")
   public ModelAndView dologout(
 
-  final HttpServletRequest request, final HttpServletResponse response) {
+      final HttpServletRequest request, final HttpServletResponse response) {
 
     logger.info("in logout ");
     final ModelAndView model = new ModelAndView();
