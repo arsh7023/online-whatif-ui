@@ -44,6 +44,28 @@
 }
 </style>
 
+<style> 
+#displayAfterSubmit {
+    width: 400px;
+    height: 100px;
+    background: green;
+    position: relative;
+    -webkit-animation: mymove 5s infinite; /* Chrome, Safari, Opera */
+    animation: mymove 5s infinite;
+}
+
+/* Chrome, Safari, Opera */
+@-webkit-keyframes mymove {
+    from {left: 0px;}
+    to {left: 200px;}
+}
+
+@keyframes mymove {
+    from {left: 0px;}
+    to {left: 200px;}
+}
+</style>
+
 
 <script type="text/javascript">
 
@@ -61,6 +83,8 @@
   }
 
 </script>
+
+
 
 </head>
 <body onload='document.loginForm.username.focus();'>
@@ -80,7 +104,7 @@
        
           
    
-      <form method='POST' commandName="userForm">
+      <form method='POST' commandName="userForm" onsubmit="myFunction()">
           
           
         <table >
@@ -97,8 +121,7 @@
             <br/>
            <!--  <td style='text-align:center;vertical-align:middle'> -->
             <td align="center" valign="center" float:left;>
-            <input name="submit" type="submit"
-                  value="LOGIN" />
+            <input name="submit" type="submit" value="LOGIN" />
             </td> 
             </tr>
           </table>
@@ -106,13 +129,29 @@
                   value="LOGIN" /> -->
              
  
-						<P>   ${message} </P>
+		<P>   ${message} </P>
  
       <%--     <input type="hidden" name="${_csrf.parameterName}"
             value="${_csrf.token}" /> --%>
+            
+            <div>
+            <label id="displayAfterSubmit"></label>
+			<h3></h3>
+			</div>
  
         </form>
     </div>
  
 </body>
 </html>
+
+<script>
+function myFunction()
+{
+
+	var msg="Please wait to check demo project...";
+	
+document.getElementById("displayAfterSubmit").innerHTML=msg;
+ // you must return true or the form will not submit
+}
+</script>

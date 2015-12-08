@@ -162,6 +162,7 @@ public class RestController {
       final ResponseEntity<userDataOne> myuser = restTemplate.exchange(url2,
           HttpMethod.GET, entity, userDataOne.class);
 
+      Long user_id;
       if (myuser != null) {
 
         Boolean lsw = false;
@@ -169,6 +170,7 @@ public class RestController {
         final JSONParser parser = new JSONParser();
         final Object obj = parser.parse(st.getBody());
         final JSONObject jsonObject = (JSONObject) obj;
+        user_id = (Long)jsonObject.get("user_id");
 
         final JSONArray userApplications = (JSONArray) jsonObject.get("userApplications");
         final Iterator<JSONObject> iterator = userApplications.iterator();
@@ -182,6 +184,48 @@ public class RestController {
         }
         if (lsw == true)
         {
+
+          ///////////////////////////////////////
+          //now check if user has demo project.
+
+          //final String urlnew = mySet.getEndpointUrl() + "projects/projectNamesNew/" + user.getUsername();
+          String urlnew = mySet.getEndpointUrl() + "projects/projectNames";
+
+          final HttpHeaders headersnew = new HttpHeaders();
+          headersnew.add("X-AURIN-USER-ID",  user.getUsername());
+          //headersnew.add("Accept", "application/json");
+          logger.info("urlnew: " + urlnew);
+          final HttpEntity<String> entitynew = new HttpEntity<String>("parameters",
+              headersnew);
+          final ResponseEntity<String[]> stList = restTemplate.exchange(urlnew,
+              HttpMethod.GET, entitynew, String[].class);
+          //final String[] stList =  restTemplate.getForObject(urlnew, String[].class);
+          Boolean lswExist=false;
+          for (final String stItem : stList.getBody())
+          {
+            logger.info("project name assigned: " + stItem);
+            if (stItem.toLowerCase().equals("demo_for_"+ user.getUsername()))
+            {
+              lswExist = true;
+            }
+
+          }
+
+          if (lswExist == false)
+          {
+            if (user_id >0)
+            {
+              urlnew = mySet.getEndpointUrl() + "projects/" + user_id.toString() + "/copydemo";
+              final ResponseEntity<String> stCopy = restTemplate.exchange(urlnew,
+                  HttpMethod.GET, entitynew, String.class);
+
+              logger.info("copydemo return: " + stCopy);
+            }
+          }
+
+          //////////////////////////////////////////
+
+
           session.setAttribute("user", myuser.getBody().getEmail());
           logger.info("session assigned: " + myuser.getBody().getEmail());
           return new ModelAndView("redirect:/");
