@@ -38,6 +38,11 @@ Ext.define('Wif.setup.FinaliseCard', {
             	  form.project.selfDestroy();
             	 
               }
+	      else if (status && status === 200) {
+		  if(data.indexOf('UAZ has already been created') !== -1)
+		  Ext.MessageBox.alert('Finalised','<p>Project settings saved.</p><br><p>UAZ was created previously, so not updated.</p>');
+		  form.project.selfDestroy();
+	      }
               else {
             	  // TODO This code could be useful elsewhere.
             	  
