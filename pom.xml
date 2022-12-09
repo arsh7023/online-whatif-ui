@@ -25,7 +25,7 @@
     <spring.version>3.1.2.RELEASE</spring.version><!-- 3.0.5.RELEASE -->
     <jackson.version>1.8.6</jackson.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <org.springframework-version>3.1.2.RELEASE</org.springframework-version>
+    <org.springframework-version>6.0.0</org.springframework-version>
   </properties>
 
 
